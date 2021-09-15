@@ -1,0 +1,102 @@
+
+
+
+1]  load data 
+
+df = pd.read_excel("sample.xlsx")     Or
+all_df = pd.read_csv('titanic.csv')
+saving csv file use df.to_csv('titanic_preprocessed.csv' , index=False) to avoid index problem 
+
+
+2] list all columns 
+
+get all columns by   df.columns
+
+make unwanted column list 
+
+droping_columns = []
+
+df=df.drop(droping_columns,axis=1,inplace=True)
+
+3]  Get all Unique Values from Column
+for col in df:
+    if(len(df[col].unique())>10):   #avoid columns having no unique values such as salery , age 
+        continue
+    print(col)
+    print(df[col].unique())
+
+or 
+
+df.info()
+
+df.values[2]      ==> it will give all values of columns for row no 2 
+4] count Null values in each columns
+
+for col in df:
+    total=df[col].isnull().sum()
+    if(total>0):
+        print('col=',col,' Null values=',total )
+  to drop record or touple that has null value then use
+df.dropna(axis=0,inplace=True)
+5]  Get Datatypes Of each Columns
+
+for col in df:
+    print(f'col={col} , Datatype=',df[col].dtypes)
+
+6] Get Mean , median of column
+
+df[col].mean()
+df[col].mode()
+df[col].median()
+
+7] Fill null values
+
+df[col].fillna(value=mean_value,inplace=True)   #with mean
+df[col].fillna(value='sf' ,inplace=True) # spwcific values
+
+8] plot graph to see how many unique value a column has
+
+df[col].value_counts().sort_index().plot(kind='bar', rot=0, ylabel='count' , xlabel='unique_Values')
+plt.title(f"Total Value_count for {col}")
+
+
+9] replacing values
+
+
+df.replace(['female'],1,inplace=True)
+df.replace(['male'],0,inplace=True)
+
+print(d['Sex'].unique())
+print(d['Sex'].value_counts())
+
+
+10] one_hot 
+
+    2 types 
+
+       1) replace single column with 0,1,2,3,....  values
+                     d['Embarked']=d['Embarked'].map({'S':0,'Q':1,'C':2})
+       2) create mulitple column using dummies and fill 0 or 1
+                  df=pd.get_dummies(df, columns = ['Embarked'])
+
+
+11]  scaling values
+
+
+MinMaxScaler scales all the data features in the range [0, 1] 
+RobustScaler(), we can remove the outliers and then use either StandardScaler or MinMaxScaler for preprocessing the dataset. 
+The z-score method (often called standardization) transforms the data into a distribution with a mean of 0 and a standard deviation of 1
+
+
+scaler = preprocessing.MinMaxScaler()
+
+X=df.drop([df.columns[0]],axis=1)   #Target X 
+X = scaler.fit_transform(X)
+
+X= pd.DataFrame(X)
+
+
+12] plotting heatmap
+ko=[ 'Accent', 'Accent_r', 'Blues', 'Blues_r', 'BrBG', 'BrBG_r', 'BuGn', 'BuGn_r', 'BuPu', 'BuPu_r', 'CMRmap', 'CMRmap_r', 'Dark2', 'Dark2_r', 'GnBu', 'GnBu_r', 'Greens', 'Greens_r', 'Greys', 'Greys_r', 'OrRd', 'OrRd_r', 'Oranges', 'Oranges_r', 'PRGn', 'PRGn_r', 'Paired', 'Paired_r', 'Pastel1', 'Pastel1_r', 'Pastel2', 'Pastel2_r', 'PiYG', 'PiYG_r', 'PuBu', 'PuBuGn', 'PuBuGn_r', 'PuBu_r', 'PuOr', 'PuOr_r', 'PuRd', 'PuRd_r', 'Purples', 'Purples_r', 'RdBu', 'RdBu_r', 'RdGy', 'RdGy_r', 'RdPu', 'RdPu_r', 'RdYlBu', 'RdYlBu_r', 'RdYlGn', 'RdYlGn_r', 'Reds', 'Reds_r', 'Set1', 'Set1_r', 'Set2', 'Set2_r', 'Set3', 'Set3_r', 'Spectral', 'Spectral_r', 'Wistia', 'Wistia_r', 'YlGn', 'YlGnBu', 'YlGnBu_r', 'YlGn_r', 'YlOrBr', 'YlOrBr_r', 'YlOrRd', 'YlOrRd_r', 'afmhot', 'afmhot_r', 'autumn', 'autumn_r', 'binary', 'binary_r', 'bone', 'bone_r', 'brg', 'brg_r', 'bwr', 'bwr_r', 'cividis', 'cividis_r', 'cool', 'cool_r', 'coolwarm', 'coolwarm_r', 'copper', 'copper_r', 'crest', 'crest_r', 'cubehelix', 'cubehelix_r', 'flag', 'flag_r', 'flare', 'flare_r', 'gist_earth', 'gist_earth_r', 'gist_gray', 'gist_gray_r', 'gist_heat', 'gist_heat_r', 'gist_ncar', 'gist_ncar_r', 'gist_rainbow', 'gist_rainbow_r', 'gist_stern', 'gist_stern_r', 'gist_yarg', 'gist_yarg_r', 'gnuplot', 'gnuplot2', 'gnuplot2_r', 'gnuplot_r', 'gray', 'gray_r', 'hot', 'hot_r', 'hsv', 'hsv_r', 'icefire', 'icefire_r', 'inferno', 'inferno_r', 'jet', 'jet_r', 'magma', 'magma_r', 'mako', 'mako_r', 'nipy_spectral', 'nipy_spectral_r', 'ocean', 'ocean_r', 'pink', 'pink_r', 'plasma', 'plasma_r', 'prism', 'prism_r', 'rainbow', 'rainbow_r', 'rocket', 'rocket_r', 'seismic', 'seismic_r', 'spring', 'spring_r', 'summer', 'summer_r', 'tab10', 'tab10_r', 'tab20', 'tab20_r', 'tab20b', 'tab20b_r', 'tab20c', 'tab20c_r', 'terrain', 'terrain_r', 'turbo', 'turbo_r', 'twilight', 'twilight_r', 'twilight_shifted', 'twilight_shifted_r', 'viridis', 'viridis_r', 'vlag', 'vlag_r', 'winter', 'winter_r'
+]
+sns.heatmap(n*n matrix, annot=True {for ploting no on graph} , cmap={color comb for ko})
