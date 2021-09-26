@@ -7,7 +7,8 @@ df = pd.read_excel("sample.xlsx")     Or
 all_df = pd.read_csv('titanic.csv')
 saving csv file use df.to_csv('titanic_preprocessed.csv' , index=False) to avoid index problem 
 
-
+get sample from df  == df.sample(3)   returns 3 sample randomly
+ 
 2] list all columns 
 
 get all columns by   df.columns
@@ -26,10 +27,21 @@ for col in df:
     print(df[col].unique())
 
 or 
+count occurance :   df['col'].value_counts()  or df.groupby('col_name').describe()
 
-df.info()
+df.info()  or df.describe()
 
 df.values[2]      ==> it will give all values of columns for row no 2 
+or  df.loc[2]
+
+
+
+get max value of all columns
+
+for col in df.columns:
+    print(f"column [{col}]  max value =",df[col].max())
+    
+    
 4] count Null values in each columns
 
 for col in df:
@@ -79,6 +91,10 @@ print(d['Sex'].value_counts())
        2) create mulitple column using dummies and fill 0 or 1
                   df=pd.get_dummies(df, columns = ['Embarked'])
 
+or 
+
+df['new_col']=df['col_tobe_encoded'].apply(lambda x : 1 if x=='catagory1' 2 elif x=='catagory2' else 3)
+         it will return single new_col with catagory1 = 1 and so . 
 
 11]  scaling values
 
